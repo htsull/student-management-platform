@@ -37,20 +37,22 @@ Example format:
 
 ```json
 
-students file -> {
+# students item
+{
 	"id": 1,
 	"name": "Alice",
 	"age": 20
 }
 
-notes file -> {
+# notes item
+
     {
         "id": 1,
         "student_id": 1,
         "subject": "Mathematics",
         "note": 20.0
     }
-}
+
 ```
 
 ## 📸 Screenshot
@@ -74,7 +76,7 @@ Here is a preview of the application:
 │   ├── gestion_etudiants.py     # Group 1 functions: add, delete, display students
 │   ├── gestion_notes.py         # Group 2 functions: add, delete, display grades
 │   ├── analyse_notes.py         # Group 3 functions: calculate averages and generate report cards
-    └── helpers.py               # # Utility functions used across multiple modules (e.g., ID checks, name validation)
+    └── helpers.py               # Utility functions used across multiple modules (e.g., ID checks, name validation)
 │
 ├── main.py                      # Main script to run and test all functionalities
 ├── README.md                    # Project description, goals, and usage instructions
