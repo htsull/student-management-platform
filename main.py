@@ -23,7 +23,7 @@ def main():
     
     data = show_students_details_table(notes, students)
     
-    st.dataframe(data)
+    st.dataframe(data.style.format({'Average': '{:.2f}'}))
 
 
     
