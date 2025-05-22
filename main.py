@@ -4,16 +4,15 @@ from functions.gestion_etudiants import delete_student, load_students, add_stude
 from functions.gestion_notes import load_notes, init_student_notes, delete_student_notes, update_student_notes, subjects
 from functions.helpers import name_exists, is_valid_name, get_next_id, student_id_exists
 
-from functions.data_processing import show_students_details_table
+from functions.analyse_notes import show_students_details_table
 
 
 
 
-students_list = load_students()
-notes_list = load_notes()
+
 
 def main():
-    global students, notes
+    
     st.title("Student management platform")
     st.write("This platform allows you to manage student information and records.")
     students = pd.read_json("data/etudiants.json")
@@ -38,10 +37,11 @@ def main():
             age = st.number_input("Age", min_value=0, max_value=100, key="age_input")
             
             if st.button("Add Student"):
+                current_students = load_students()
                 # Check if the name is valid and not already in the list
-                if is_valid_name(name) and age > 0 and not name_exists(name, students_list): 
+                if is_valid_name(name) and age > 0 and not name_exists(name, current_students): 
                     student = {
-                        "id": get_next_id(students_list),
+                        "id": get_next_id(current_students),
                         "name": name,
                         "age": age
                     }
@@ -55,7 +55,7 @@ def main():
                 else:
                     if not is_valid_name(name):
                         st.error("Invalid name. Please remove extra spaces or use a real name.")
-                    elif name_exists(name, students_list):
+                    elif name_exists(name, current_students):
                        st.error("This name already exists.")
                     elif age <= 0:
                         st.error("Please enter an age greater than 0.")
@@ -105,6 +105,7 @@ def main():
             note = st.number_input("Updated Note", min_value=0.0, max_value=100.0, step=0.1)
             
             if st.button("Update Note"):
+                current_students = load_students()
                 update_student_notes(student_id, subject, note)
                 
                 st.rerun()
@@ -116,11 +117,12 @@ def main():
             age = st.number_input("Update Age", min_value=0, max_value=100)
             
             if st.button("Update Student"):
+                current_students = load_students()
                 if not is_valid_name(name):
                     st.error("Name is invalid. Please remove extra spaces or use a real name.")
                 elif age <= 0:
                     st.error("Please enter an age greater than 0.")
-                elif name_exists(name, students_list):
+                elif name_exists(name, current_students):
                     st.error("This name already exists. Please use a different name.")
                 else:
                     update_student_infos(student_id, name, age)

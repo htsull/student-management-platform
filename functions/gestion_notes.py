@@ -11,7 +11,6 @@ def load_notes():
         notes = json.load(file)
     return notes
 
-notes = load_notes()
 
 
 # initializing the subjects list
@@ -19,7 +18,8 @@ subjects = ["Mathematics", "Physics", "Chemistry"]
 
 # create the notes for each student
 def init_student_notes(student_id: int):
-    global notes
+    notes = load_notes()
+
     next_id = max([note["id"] for note in notes], default=0) + 1
     for subject in subjects:
         notes.append({
@@ -37,7 +37,7 @@ def init_student_notes(student_id: int):
 #delete the notes of a student
 # for a given student ID
 def delete_student_notes(student_id: int):
-    global notes
+    notes = load_notes()
     # Check if the ID exists in the current notes list
     if student_id not in [note["student_id"] for note in notes]:
         return "Student ID not found."
@@ -72,16 +72,16 @@ def delete_student_notes(student_id: int):
     
     
 def update_student_notes(student_id: int, subject: str, note: float):
-    notes = load_notes()  # Always get a fresh list from the file
+    notes = load_notes()  
 
-    found = False
+    updated = False
     for note_entry in notes:
         if note_entry["student_id"] == student_id and note_entry["subject"] == subject:
             note_entry["note"] = note
-            found = True
+            updated = True
             break
 
-    if not found:
+    if not updated:
         return "Note entry not found for this student and subject."
 
     with open("data/notes.json", "w") as file:

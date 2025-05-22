@@ -18,31 +18,31 @@ students = load_students()
 
 
 def add_student(student : dict):
-    global students
+    students = load_students()
     students.append(student)
+    
     with open(students_file, "w") as file:
         json.dump(students, file, indent=4)
+        
     return "Student added successfully."
 
 def delete_student(student_id: int):
-    global students
+    students = load_students()
 
     # Check if the ID exists in the current student list
     if student_id not in [student["id"] for student in students]:
         return "Student ID not found."
-    else:
-        # Create a new list excluding the student with the given ID
-        students = [student for student in students if student["id"] != student_id]
 
-        # Save the updated list back to the file
-        with open(students_file, "w") as file:
-            json.dump(students, file, indent=4)
+    students = [student for student in students if student["id"] != student_id]
 
-        return "Student deleted successfully."
+    with open(students_file, "w") as file:
+        json.dump(students, file, indent=4)
+
+    return "Student deleted successfully."
 
 
 def update_student_infos(student_id: int, name: str, age: int):
-    global students
+    students = load_students()
     
     # Check if the ID exists in the current student list
     if student_id not in [student["id"] for student in students]:
@@ -53,9 +53,12 @@ def update_student_infos(student_id: int, name: str, age: int):
             if student["id"] == student_id:
                 student["name"] = name
                 student["age"] = age
+                break
 
         # Save the updated list back to the file
         with open(students_file, "w") as file:
             json.dump(students, file, indent=4)
 
-        return "Student information updated successfully."
+    return "Student information updated successfully."
+
+ 

@@ -1,1 +1,38 @@
-[]
+[
+    {
+        "id": 1,
+        "student_id": 1,
+        "subject": "Mathematics",
+        "note": 20.0
+    },
+    {
+        "id": 2,
+        "student_id": 1,
+        "subject": "Physics",
+        "note": 0
+    },
+    {
+        "id": 3,
+        "student_id": 1,
+        "subject": "Chemistry",
+        "note": 0
+    },
+    {
+        "id": 4,
+        "student_id": 2,
+        "subject": "Mathematics",
+        "note": 100.0
+    },
+    {
+        "id": 5,
+        "student_id": 2,
+        "subject": "Physics",
+        "note": 0
+    },
+    {
+        "id": 6,
+        "student_id": 2,
+        "subject": "Chemistry",
+        "note": 0
+    }
+]
