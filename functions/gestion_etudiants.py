@@ -1,0 +1,61 @@
+import json
+from pathlib import Path
+import pprint
+
+students_file = Path("data/etudiants.json")
+notes_file = Path("data/notes.json")
+def load_students():
+    if not students_file.exists():
+        return "No student data available."
+    with open(students_file, "r") as file:
+        students = json.load(file)
+    return students
+
+
+
+# load student list
+students = load_students()
+
+
+def add_student(student : dict):
+    global students
+    students.append(student)
+    with open(students_file, "w") as file:
+        json.dump(students, file, indent=4)
+    return "Student added successfully."
+
+def delete_student(student_id: int):
+    global students
+
+    # Check if the ID exists in the current student list
+    if student_id not in [student["id"] for student in students]:
+        return "Student ID not found."
+    else:
+        # Create a new list excluding the student with the given ID
+        students = [student for student in students if student["id"] != student_id]
+
+        # Save the updated list back to the file
+        with open(students_file, "w") as file:
+            json.dump(students, file, indent=4)
+
+        return "Student deleted successfully."
+
+
+def update_student_infos(student_id: int, name: str, age: int):
+    global students
+    
+    # Check if the ID exists in the current student list
+    if student_id not in [student["id"] for student in students]:
+        return "Student ID not found."
+    else:
+        # Update the student information
+        for student in students:
+            if student["id"] == student_id:
+                student["name"] = name
+                student["age"] = age
+
+        # Save the updated list back to the file
+        with open(students_file, "w") as file:
+            json.dump(students, file, indent=4)
+
+        return "Student information updated successfully."

@@ -1,0 +1,11 @@
+[project]
+name = "student-management-platform"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "streamlit>=1.45.1",
+    "streamlit-modal>=0.1.2",
+    "watchdog>=6.0.0",
+]

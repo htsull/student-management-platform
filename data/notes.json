@@ -1,0 +1,38 @@
+[
+    {
+        "id": 4,
+        "student_id": 2,
+        "subject": "Mathematics",
+        "note": 10.0
+    },
+    {
+        "id": 5,
+        "student_id": 2,
+        "subject": "Physics",
+        "note": 0
+    },
+    {
+        "id": 6,
+        "student_id": 2,
+        "subject": "Chemistry",
+        "note": 0
+    },
+    {
+        "id": 7,
+        "student_id": 3,
+        "subject": "Mathematics",
+        "note": 0
+    },
+    {
+        "id": 8,
+        "student_id": 3,
+        "subject": "Physics",
+        "note": 0
+    },
+    {
+        "id": 9,
+        "student_id": 3,
+        "subject": "Chemistry",
+        "note": 0
+    }
+]
