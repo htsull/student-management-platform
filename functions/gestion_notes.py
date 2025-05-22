@@ -52,22 +52,42 @@ def delete_student_notes(student_id: int):
         return "Student notes deleted successfully."
     
     # update the notes for a given student ID
-def update_student_notes(student_id: int, subject: str, note: float):
-    global notes
+# def update_student_notes(student_id: int, subject: str, note: float):
+#     global notes
     
-    # Check if the ID exists in the current notes list
-    if student_id not in [note["student_id"] for note in notes]:
-        return "Student ID not found."
-    else:
+#     # Check if the ID exists in the current notes list
+#     if student_id not in [note["student_id"] for note in notes]:
+#         return "Student ID not found."
+#     else:
         
-        # Update the note for the given student ID and subject
-        for note_entry in notes:
-            if note_entry["student_id"] == student_id and note_entry["subject"] == subject:
-                note_entry["note"] = note
+#         # Update the note for the given student ID and subject
+#         for note_entry in notes:
+#             if note_entry["student_id"] == student_id and note_entry["subject"] == subject:
+#                 note_entry["note"] = note
                 
-        # Save the updated list back to the file
-        with open(notes_file, "w") as file:
-            json.dump(notes, file, indent=4)
-        return "Student notes updated successfully."
+#         # Save the updated list back to the file
+#         with open(notes_file, "w") as file:
+#             json.dump(notes, file, indent=4)
+#         return "Student notes updated successfully."
+    
+    
+def update_student_notes(student_id: int, subject: str, note: float):
+    notes = load_notes()  # Always get a fresh list from the file
+
+    found = False
+    for note_entry in notes:
+        if note_entry["student_id"] == student_id and note_entry["subject"] == subject:
+            note_entry["note"] = note
+            found = True
+            break
+
+    if not found:
+        return "Note entry not found for this student and subject."
+
+    with open("data/notes.json", "w") as file:
+        json.dump(notes, file, indent=4)
+
+    return "Student notes updated successfully."
+
     
     

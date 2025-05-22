@@ -7,8 +7,7 @@ from functions.helpers import name_exists, is_valid_name, get_next_id, student_i
 from functions.data_processing import show_students_details_table
 
 
-students = pd.read_json("data/etudiants.json")
-notes = pd.read_json("data/notes.json")
+
 
 students_list = load_students()
 notes_list = load_notes()
@@ -17,10 +16,15 @@ def main():
     global students, notes
     st.title("Student management platform")
     st.write("This platform allows you to manage student information and records.")
+    students = pd.read_json("data/etudiants.json")
+    notes = pd.read_json("data/notes.json")
+    
+    # st.write(students_list)
+    # st.write(notes_list)
+    
     data = show_students_details_table(notes, students)
     
-    # st.dataframe(data.reset_index(drop=True), use_container_width=True)
-    st.table(data.reset_index(drop=True))
+    st.dataframe(data)
 
 
     
@@ -49,15 +53,23 @@ def main():
                     # rerun the app to refresh the data
                     st.rerun()
                 else:
-                    st.error("Please enter a valid name or an age greater than 0.")
-                
+                    if not is_valid_name(name):
+                        st.error("Invalid name. Please remove extra spaces or use a real name.")
+                    elif name_exists(name, students_list):
+                       st.error("This name already exists.")
+                    elif age <= 0:
+                        st.error("Please enter an age greater than 0.")
+                    
                     
         elif option == "Delete Students":
             # st.subheader("Delete a student")
             student_id = st.number_input("Student ID", min_value=1, placeholder="Enter student ID")
             
             if st.button("Delete Student"):
-                if student_id and student_id_exists(student_id, students_list):
+                
+                current_students = load_students()
+                
+                if student_id and student_id_exists(student_id, current_students):
                     
                     @st.dialog("Are you sure?", width="small")
                     def confirm():
@@ -70,6 +82,13 @@ def main():
                                 # Call the delete function here
                                 delete_student(student_id)
                                 delete_student_notes(student_id)
+                                
+                                # Reload the list after deletion
+                                updated_students = load_students()
+
+                                if not updated_students:
+                                    st.info("All students have been deleted from the database.")
+                                
                                 st.rerun()
                                 
                         with col2:
@@ -108,11 +127,6 @@ def main():
                     st.rerun()
                 
                 
-    
-
-    
-    
-
 
 
 if __name__ == "__main__":
