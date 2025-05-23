@@ -1,12 +1,12 @@
 [
     {
         "id": 1,
-        "name": "Berthony update",
-        "age": 4
+        "name": "Berthony",
+        "age": 2
     },
     {
         "id": 2,
-        "name": "testsorting",
+        "name": "test",
         "age": 3
     }
 ]

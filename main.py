@@ -23,10 +23,13 @@ def main():
     
     data = show_students_details_table(notes, students)
     
-    st.dataframe(data.style.format({'Average': '{:.2f}'}))
+    if data.empty:
+        st.info("❌ No students found in the database. ➕ Try adding some for testing.")
 
 
-    
+    else:
+        st.write(f"Number of students: {len(data)}")
+        st.dataframe(data.style.format({'Average': '{:.2f}'}))
     
     with st.sidebar:
         st.sidebar.header("Configuration Panel")
@@ -34,7 +37,7 @@ def main():
         
         if option == "Add Students":
             name = st.text_input("Name", placeholder="Enter student name...", key="name_input")
-            age = st.number_input("Age", min_value=0, max_value=100, key="age_input")
+            age = st.number_input("Age", min_value=0, max_value=100, key="age_input", placeholder="Enter student age...")
             
             if st.button("Add Student"):
                 current_students = load_students()
