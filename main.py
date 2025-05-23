@@ -25,8 +25,6 @@ def main():
     
     if data.empty:
         st.info("❌ No students found in the database. ➕ Try adding some for testing.")
-
-
     else:
         st.write(f"Number of students: {len(data)}")
         st.dataframe(data.style.format({'Average': '{:.2f}'}))
