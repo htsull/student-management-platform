@@ -9,3 +9,8 @@ dependencies = [
     "streamlit>=1.45.1",
     "watchdog>=6.0.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.10",
+]
