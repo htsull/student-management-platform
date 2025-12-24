@@ -67,7 +67,7 @@ Here is a preview of the application:
 │
 ├── .streamlit
     └── config.toml              # Streamlit configuration settings (e.g. theme, layout)
-├── .venv                        # # Virtual environment directory for managing project dependencies
+├── .venv                        # Virtual environment directory for managing project dependencies
 ├── data/
 │   ├── etudiants.json           # Contains student data
 │   └── notes.json               # Contains grades per student and subject
@@ -123,8 +123,7 @@ streamlit run main.py
 - Add visual analytics (grade distributions, trends).
 - Database integration for scalability.
 - Subject management (create/edit/delete subjects dynamically).
-- Authentification
 
 ## 📬 Contact
 
-For questions, suggestions, or collaborations, feel free to contact subspam304@example.com.
+For questions, suggestions, or collaborations, feel free to contact subspam304@gmail.com.
