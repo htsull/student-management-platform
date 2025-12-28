@@ -1,129 +1,99 @@
 # 🎓 Student Management Platform
 
-The **Student Management Platform** is a Streamlit-based web application that enables educational institutions, teachers, or administrative staff to efficiently manage student records and academic performance. This tool simplifies the process of adding, updating, and analyzing student data in a user-friendly and interactive interface.
+A **Streamlit** web app for creating, updating, and reviewing student records and subject grades. Data is stored in a local **SQLite** database (created automatically on first run) and presented in a tidy, spreadsheet-like layout for quick review.
 
-Visit the ➡️ [deployed demo](https://htsull-student-management-platform-main-62ddtm.streamlit.app/) on the Steamlit Cloud Platform or get the source code ➡️ [here](https://github.com/htsull/student-management-platform).
+The app is optimized for classroom or small program management where instructors need to:
 
----
-
-## 📌 Features
-
-### 👨‍🎓 Student Management
-
-- **Add New Students**: Enter the student's name and age to register them in the system. Each student is assigned a unique ID automatically.
-- **Update Student Info**: Modify a student's name and age using their ID.
-- **Delete Students**: Permanently remove a student from the system by ID. This also removes their corresponding grades.
-- **Validation**: The app includes built-in validations for name uniqueness, proper formatting, and age constraints.
-
-### 📚 Grade Management
-
-- **Initialize Grades**: Upon adding a new student, default grades are initialized for all subjects.
-- **Update Grades**: Easily update a student's grade for any subject from the sidebar.
-- **Delete Grades**: When a student is deleted, their associated grades are also removed to maintain data integrity.
-
-### 📊 Data Visualization
-
-- **Interactive Table**: A detailed table displays student information alongside their grades per subject, enabling quick performance review.
-- **Real-time Refresh**: All actions like adding, updating, or deleting trigger a live refresh using `st.rerun()` to ensure the UI is always up-to-date.
-
----
-
-## 📁 Data Structure
-
-- **etudiants.json**: Stores student data in JSON format with fields: `id`, `name`, and `age`.
-- **notes.json**: Stores student grades with fields: `student_id`, `subject`, and `note`.
-
-Example format:
-
-```json
-
-# students item
-{
-	"id": 1,
-	"name": "Alice",
-	"age": 20
-}
-
-# notes item
-
-    {
-        "id": 1,
-        "student_id": 1,
-        "subject": "Mathematics",
-        "note": 20.0
-    }
-
-```
-
-## 📸 Screenshot
-
-Here is a preview of the application:
+- Add new students and capture their basic details
+- Record or adjust grades across predefined subjects
+- Review grades in a pivoted table by student
+- Remove records (students and their associated grades) when necessary
 
 ![Main Interface](screenshots/UI.png)
 
-## 🏗️ Project Architecture
+---
+
+## ✨ Key Features
+
+### Student records
+- Add students with name and age validation (`functions/helpers.py`).
+- Update a student’s name or age individually.
+- Delete a student and cascade-delete their grades.
+
+### Grade tracking
+- Supported subjects are defined in `functions/grade_analysis.py` (`Subject 1`, `Subject 2`, `Subject 3`).
+- Add a grade for a subject when no grade exists yet.
+- Update an existing grade or insert a new one if missing.
+
+### Data view
+- Records are pivoted to a student-by-subject table using `pivot_data` in `functions/grade_analysis.py`.
+- The UI refreshes after each action to keep the display in sync (`st.rerun()`).
+
+---
+
+## 🗂️ Project Structure
 
 ```
-│
-├── .streamlit
-    └── config.toml              # Streamlit configuration settings (e.g. theme, layout)
-├── .venv                        # Virtual environment directory for managing project dependencies
+.
+├── main.py                     # Streamlit app entry point and UI logic
 ├── data/
-│   ├── etudiants.json           # Contains student data
-│   └── notes.json               # Contains grades per student and subject
-│
+│   ├── database_management.py  # SQLite helpers (create tables, CRUD, joins)
+│   ├── platform.db             # Auto-created SQLite database (generated at runtime)
+│   ├── etudiants.json          # Legacy sample data (not used by the current app)
+│   └── notes.json              # Legacy sample data (not used by the current app)
 ├── functions/
-│   ├── gestion_etudiants.py     # Group 1 functions: add, delete, display students
-│   ├── gestion_notes.py         # Group 2 functions: add, delete, display grades
-│   ├── analyse_notes.py         # Group 3 functions: calculate averages and generate report cards
-    └── helpers.py               # Utility functions used across multiple modules (e.g., ID checks, name validation)
-│
-├── main.py                      # Main script to run and test all functionalities
-├── README.md                    # Project description, goals, and usage instructions
-└── requirements.txt             # Project Dependencies
+│   ├── grade_analysis.py       # Subject list and grade pivot helper
+│   └── helpers.py              # UI validations and confirmation dialogs
+├── .streamlit/config.toml      # Streamlit server config (runOnSave enabled)
+├── requirements.txt            # Runtime dependencies (Streamlit, pandas, watchdog)
+└── screenshots/UI.png          # UI preview
 ```
 
-## ⚙️ Tech Stack
+---
 
-- Streamlit: For building the interactive frontend
-- Python: Core programming language
-- Pandas: For data manipulation and transformation
-- JSON: Used for lightweight, file-based data storage
+## 🚀 Quickstart
 
-## 🚀 How to Run
+### Prerequisites
+- Python 3.9 or later
+- pip
 
-1. Clone the repository:
-
+### Installation & launch
 ```bash
 git clone https://github.com/your-username/student-management-platform.git
 cd student-management-platform
 
-```
-
-2. Install dependencies:
-
-```bash
 pip install -r requirements.txt
-```
-
-3. Launch the app:
-
-```bash
 streamlit run main.py
 ```
 
-## 🔒 Notes
+The first launch creates `data/platform.db` and the required `students` and `grades` tables automatically.
 
-- This app uses simple file-based persistence (.json). For large-scale deployment, integration with a proper database (e.g., SQLite, PostgreSQL) is recommended.
-- All student and note operations are atomic — changes are saved immediately to avoid data loss on app reload.
+---
 
-## 💡 Future Improvements
+## 🧭 Using the App
 
-- Add authentication and user roles (admin/teacher view).
-- Add visual analytics (grade distributions, trends).
-- Database integration for scalability.
-- Subject management (create/edit/delete subjects dynamically).
+1. **Open the sidebar** and choose an action:
+   - **Add Students** – create a record after passing name/age validation.
+   - **Add Students Grades** – attach a grade for a subject when none exists yet.
+   - **Update Student Infos** – change a student’s name and/or age.
+   - **Update Students Grades** – modify an existing grade or insert if missing.
+   - **Delete Students** – remove a student and their grades.
+2. **Review the table** in the main view, which shows students pivoted by subject.
+3. (Optional) Use the **“Drop all data from the database”** button to clear all tables.
 
-## 📬 Contact
+> Tip: Subject choices come from the `subjects` list in `functions/grade_analysis.py`. Add or rename subjects there to change the dropdowns and pivoted view.
 
-For questions, suggestions, or collaborations, feel free to contact subspam304@gmail.com.
+---
+
+## 🛠️ Development Notes
+
+- The database lives at `data/platform.db`; delete this file to start fresh.
+- All database helpers are in `data/database_management.py` and return/accept `sqlite3` connections when needed.
+- Validation helpers live in `functions/helpers.py` and are reused across sidebar forms.
+- The app currently assumes a fixed subject list. If you add or remove subjects, also adjust any seed data or downstream reporting you introduce.
+
+---
+
+## 📄 License
+
+This project is open source under the MIT license. Feel free to adapt it for your classroom, workshop, or internal tooling needs.
